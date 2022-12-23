@@ -78,19 +78,24 @@
       // pulang onchange
       $("input[type='time']").change(function() {
         let inputTimes = $(this).parent().parent().find("input[type='time']")
-        let masuk = inputTimes[0];
-        let pulang = inputTimes[1];
+        let masuk = $($(inputTimes[0])[0]);
+        let pulang = $($(inputTimes[1])[0]);
 
-        let invalidFeedback = $(this).next();
+        let invalidFeedbackMasuk = $(masuk.next()[0]);
+        let invalidFeedbackPulang = $(pulang.next()[0]);
 
-        $(this).removeClass("is-invalid");
-        $(this).removeClass("is-valid");
-        invalidFeedback.text("");
+        masuk.removeClass("is-invalid");
+        masuk.removeClass("is-valid");
 
-        if (masuk.value > pulang.value) {
-          $(this).addClass("is-invalid");
-          invalidFeedback.text("Jam pulang harus lebih besar dari jam masuk");
-          pulang.value = masuk.value;
+        pulang.removeClass("is-invalid");
+        pulang.removeClass("is-valid");
+
+        if (masuk.val() > pulang.val()) {
+          masuk.addClass("is-invalid");
+          pulang.addClass("is-invalid");
+          invalidFeedbackMasuk.html("Jam masuk harus lebih kecil dari jam pulang");
+          invalidFeedbackPulang.html("Jam pulang harus lebih besar dari jam masuk");
+          pulang.val(masuk.val())
         }
       });
     });
